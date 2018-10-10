@@ -1,0 +1,5 @@
+package: dev.azure.com/scex-tmgt/Geosort/_git/geosort-backend-models
+import:
+- package: github.com/jinzhu/gorm
+  version: ~1.9.1
+- package: googlemaps.github.io/maps
