@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	"googlemaps.github.io/maps"
 )
 
 type DeliveryPoints struct {
@@ -67,11 +66,4 @@ func (dp *DeliveryPoints) Expand(data *gorm.DB) error {
 	}
 
 	return nil
-}
-
-func (dp DeliveryPoints) GetLatLng() maps.LatLng {
-	return maps.LatLng{
-		Lat: dp.Point.Latitude,
-		Lng: dp.Point.Longitude,
-	}
 }

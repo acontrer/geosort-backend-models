@@ -7,7 +7,6 @@ import (
 
 	"dev.azure.com/scex-tmgt/Geosort/geosort-backend-models/utils"
 	"github.com/jinzhu/gorm"
-	"googlemaps.github.io/maps"
 )
 
 type DistributionCenters struct {
@@ -17,13 +16,6 @@ type DistributionCenters struct {
 	FinishWorkingDay time.Time `gorm:"column:finish_working_day;not null;" json:"finish_working_day" form:"distribution_centers_finish_working_day"`
 	PointsId         int       `gorm:"column:points_id;not null;" json:"points_id" form:"distribution_centers_points_id"`
 	Point            Points    `gorm:"foreignkey:PointsId;" json:"point" form:"distribution_centers_point"`
-}
-
-func (dc DistributionCenters) GetLatLng() maps.LatLng {
-	return maps.LatLng{
-		Lat: dc.Point.Latitude,
-		Lng: dc.Point.Longitude,
-	}
 }
 
 func (dc *DistributionCenters) GetDistribuionCenterByName(data *gorm.DB, name string) bool {
