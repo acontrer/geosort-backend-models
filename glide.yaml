@@ -1,4 +1,4 @@
-package: dev.azure.com/scex-tmgt/Geosort/_git/geosort-backend-models
+package: dev.azure.com/scex-tmgt/Geosort/geosort-backend-models
 import:
 - package: github.com/jinzhu/gorm
   version: ~1.9.1
