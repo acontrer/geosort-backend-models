@@ -3,7 +3,7 @@ package models
 import (
 	"strings"
 
-	"dev.azure.com/scex-tmgt/Geosort/geosort-backend-models/utils"
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"github.com/jinzhu/gorm"
 )
 
