@@ -37,3 +37,16 @@ func (p *Points) Expand(data *gorm.DB) error {
 
 	return nil
 }
+
+func (p *Points) GetPointByStreet(db *gorm.DB, streetName, streetNumber string) bool {
+	var street Streets
+	if err := db.Where("name = ?", streetName).Find(&street).Error; err != nil {
+		return false
+	} else {
+		if err := db.Where("streets_id = ? AND street_number = ?", street.Id, streetNumber).Find(&p).Error; err != nil {
+			return false
+		} else {
+			return true
+		}
+	}
+}
