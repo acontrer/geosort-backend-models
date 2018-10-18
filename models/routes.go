@@ -19,6 +19,9 @@ type Routes struct {
 	EstimatedFinishTime   time.Time           `gorm:"column:estimated_finish_time;not null;" json:"estimated_finish_time" form:"routes_estimated_finish_time"`
 	NextPoint             *int64              `gorm:"column:next_point;" json:"next_point" form:"routes_next_point"`
 	DeliveryPoints        []DeliveryPoints    `gorm:"foreignkey:RoutesId;association_foreignkey:Id;" json:"delivery_points" form:"routes_delivery_points"`
+	TravelTypesId         int                 `gorm:"column:travel_types_id;not null;" json:"travel_types_id" form:"routes_travel_types_id"`
+	TravelType            TravelTypes         `gorm:"foreignkey:TravelTypesId;" json:"travel_types" form:"routes_travel_types"`
+	Value                 float64             `gorm:"column:value;not null;" json:"value" form:"routes_value"`
 }
 
 func (r *Routes) GetLastPoint() *DeliveryPoints {
