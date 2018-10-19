@@ -26,7 +26,7 @@ type Routes struct {
 }
 
 func (r *Routes) GetRouteByIdTrl(db *gorm.DB, idTRL int) error {
-	if err := db.Where("id_trl = ?", idTRL).Find(&idTRL).Error; err != nil {
+	if err := db.Where("id_trl = ?", idTRL).Find(&r).Error; err != nil {
 		return err
 	} else {
 		return nil
