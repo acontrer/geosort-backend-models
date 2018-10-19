@@ -8,6 +8,7 @@ import (
 
 type Routes struct {
 	Id                    int                 `gorm:"column:id;not null;" json:"id" form:"routes_id"`
+	IdTrl                 int                 `gorm:"column:id_trl;not null;" json:"id_trl" form:"routes_id_trl"`
 	DriversId             *int                `gorm:"column:drivers_id;" json:"drivers_id" form:"routes_drivers_id"`
 	Driver                Drivers             `gorm:"foreignkey:DriversId;" json:"driver"`
 	VehiclesId            *int                `gorm:"column:vehicles_id;" json:"vehicles_id" form:"routes_vehicles_id"`
