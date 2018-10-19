@@ -25,6 +25,14 @@ type Routes struct {
 	Value                 float64             `gorm:"column:value;not null;" json:"value" form:"routes_value"`
 }
 
+func (r *Routes) GetRouteByIdTrl(db *gorm.DB, idTRL int) error {
+	if err := db.Where("id_trl = ?", idTRL).Find(&idTRL).Error; err != nil {
+		return err
+	} else {
+		return nil
+	}
+}
+
 func (r *Routes) GetLastPoint() *DeliveryPoints {
 	return &r.DeliveryPoints[len(r.DeliveryPoints)-1]
 }
