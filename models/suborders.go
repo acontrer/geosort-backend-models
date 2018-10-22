@@ -38,12 +38,3 @@ func (s *Suborders) GetSuborderByCode(data *gorm.DB) bool {
 		return true
 	}
 }
-
-func(s *Suborders) CheckSku(data *gorm.DB, sku string) bool {
-	for i := range s.Packages {
-		if s.Packages[i].Sku == sku {
-			return true
-		}
-	}
-	return false
-}
