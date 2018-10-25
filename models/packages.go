@@ -18,7 +18,6 @@ type Packages struct {
 	Price          int          `gorm:"column:price;not null;" json:"price" form:"packages_price"`
 	PackageTypesId int          `gorm:"column:package_types_id;not null;" json:"package_types_id" form:"packages_package_types_id"`
 	PackageType    PackageTypes `gorm:"foreignkey:PackageTypesId;" json:"package_type" form:"packages_package_type"`
-	PurchaseOrder  int64        `gorm:"column:purchase_order;not null;" json:"purchase_order" form:"packages_purchase_order"`
 	SubordersId    int64        `gorm:"column:suborders_id;not null;" json:"suborders_id" form:"packages_suborders_id"`
 	Priority       int          `gorm:"column:priority;not null;" json:"priority" form:"packages_priority"`
 	LastState      *int         `gorm:"column:last_state;" json:"last_state" form:"packages_last_state"`
