@@ -17,6 +17,14 @@ type Suborders struct {
 }
 
 func (s *Suborders) Expand(data *gorm.DB) error {
+	if err := data.Model(s).Related(&s.DocumentType).Error; err != nil {
+		return err
+	}
+
+	if err := data.Model(s).Related(&s.DeliveryMethod).Error; err != nil {
+		return err
+	}
+
 	if err := data.Model(s).Related(&s.Packages).Error; err != nil {
 		if err.Error() == "record not found" {
 			return nil
