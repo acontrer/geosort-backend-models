@@ -8,6 +8,7 @@ type Suborders struct {
 	Id                int64           `gorm:"column:id;not null;" json:"id" form:"suborders_id"`
 	DeliveryPointsId  int64           `gorm:"column:delivery_points_id;not null;" json:"delivery_points_id" form:"suborders_delivery_points_id"`
 	Code              int64           `gorm:"column:code;not null;" json:"code" form:"suborders_code"`
+	Do                int64           `gorm:"column:do;not null;" json:"do" form:"suborders_do"`
 	DocumentTypesId   int             `gorm:"column:document_types_id;not null;" json:"document_types_id" form:"suborders_document_types_id"`
 	DocumentType      DocumentTypes   `gorm:"foreignkey:DocumentTypesId;" json:"document_type" form:"suborders_document_type"`
 	DeliveryMethodsId int             `gorm:"column:delivery_methods_id;not null;" json:"delivery_methods_id" form:"suborders_delivery_methods_id"`
