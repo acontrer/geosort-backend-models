@@ -24,7 +24,6 @@ type DeliveryPoints struct {
 	Latitude              float64             `gorm:"column:latitude;" json:"latitude" form:"delivery_points_latitude"`
 	Longitude             float64             `gorm:"column:longitude;" json:"longitude" form:"delivery_points_longitude"`
 	Suborders             []Suborders         `gorm:"foreignkey:DeliveryPointsId;association_foreignkey:Id;" json:"suborders" form:"delivery_points_suborders"`
-	Distance              float64             `gorm:"column:distance;" json:"distance" form:"delivery_points_distance"`
 	TimeWindows           []TimeWindows       `gorm:"many2many:time_details;" json:"time_windows" form:"delivery_points_time_windows"`
 	TravelTypesId         int                 `gorm:"column:travel_types_id;not null;" json:"travel_types_id" form:"delivery_points_travel_types_id"`
 	TravelType            TravelTypes         `gorm:"foreignkey:TravelTypesId;" json:"travel_types" form:"delivery_points_travel_types"`
