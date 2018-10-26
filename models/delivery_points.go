@@ -28,6 +28,9 @@ type DeliveryPoints struct {
 	TimeWindows           []TimeWindows       `gorm:"many2many:time_details;" json:"time_windows" form:"delivery_points_time_windows"`
 	TravelTypesId         int                 `gorm:"column:travel_types_id;not null;" json:"travel_types_id" form:"delivery_points_travel_types_id"`
 	TravelType            TravelTypes         `gorm:"foreignkey:TravelTypesId;" json:"travel_types" form:"delivery_points_travel_types"`
+	RatioLatitude         float64             `gorm:"column:ratio_latitude;not null;" json:"ratio_latitude" form:"delivery_points_ratio_latitude"`
+	RatioLongitude        float64             `gorm:"column:ratio_longitude;not null;" json:"ratio_longitude" form:"delivery_points_ratio_longitude"`
+	RatioArrivalAt        time.Time           `gorm:"column:ratio_arrival_at;not null;" json:"ratio_arrival_at" form:"delivery_points_ratio_arrival_at"`
 }
 
 func (dp *DeliveryPoints) Expand(data *gorm.DB) error {
