@@ -50,3 +50,12 @@ func (p *Points) GetPointByStreet(db *gorm.DB, streetName, streetNumber string) 
 		}
 	}
 }
+
+//TODO: Where is unnecessary. Make the condition in join clause.
+func (p *Points) CheckRestrictionAreas(data *gorm.DB) ([]RestrictionAreas, error) {
+	var ra []RestrictionAreas
+	tx := data.Joins("JOIN points ON (st_within(st_setsrid(st_makepoint(points.longitude, points.latitude), 4267), restriction_areas.polygon::geometry))")
+	tx = tx.Where(p)
+	err := tx.Find(&ra).Error
+	return ra, err
+}
