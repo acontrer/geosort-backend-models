@@ -13,6 +13,7 @@ type States struct {
 	Description  string     `gorm:"column:description;not null;" json:"description" form:"states_description"`
 	CreatedAt    time.Time  `gorm:"column:created_at;not null;" json:"created_at" form:"states_created_at"`
 	PackagesId   int64      `gorm:"column:packages_id;not null;" json:"packages_id" form:"states_packages_id"`
+	MatCode      string     `gorm:"column:mat_code;not null;" json:"mat_code" form:"states_mat_code"`
 }
 
 func (s *States) Expand(data *gorm.DB) error {

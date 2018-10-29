@@ -8,6 +8,7 @@ import (
 
 type Routes struct {
 	Id                    int                 `gorm:"column:id;not null;" json:"id" form:"routes_id"`
+	IdTrl                 int                 `gorm:"column:id_trl;not null;" json:"id_trl" form:"routes_id_trl"`
 	DriversId             *int                `gorm:"column:drivers_id;" json:"drivers_id" form:"routes_drivers_id"`
 	Driver                Drivers             `gorm:"foreignkey:DriversId;" json:"driver"`
 	VehiclesId            *int                `gorm:"column:vehicles_id;" json:"vehicles_id" form:"routes_vehicles_id"`
@@ -19,6 +20,17 @@ type Routes struct {
 	EstimatedFinishTime   time.Time           `gorm:"column:estimated_finish_time;not null;" json:"estimated_finish_time" form:"routes_estimated_finish_time"`
 	NextPoint             *int64              `gorm:"column:next_point;" json:"next_point" form:"routes_next_point"`
 	DeliveryPoints        []DeliveryPoints    `gorm:"foreignkey:RoutesId;association_foreignkey:Id;" json:"delivery_points" form:"routes_delivery_points"`
+	TravelTypesId         int                 `gorm:"column:travel_types_id;not null;" json:"travel_types_id" form:"routes_travel_types_id"`
+	TravelType            TravelTypes         `gorm:"foreignkey:TravelTypesId;" json:"travel_types" form:"routes_travel_types"`
+	Value                 float64             `gorm:"column:value;not null;" json:"value" form:"routes_value"`
+}
+
+func (r *Routes) GetRouteByIdTrl(db *gorm.DB, idTRL int) error {
+	if err := db.Where("id_trl = ?", idTRL).Find(&r).Error; err != nil {
+		return err
+	} else {
+		return nil
+	}
 }
 
 func (r *Routes) GetLastPoint() *DeliveryPoints {
