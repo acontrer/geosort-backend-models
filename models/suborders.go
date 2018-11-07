@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"github.com/jinzhu/gorm"
 )
 
@@ -18,23 +19,23 @@ type Suborders struct {
 
 func (s *Suborders) Expand(data *gorm.DB) error {
 	if err := data.Model(s).Related(&s.DocumentType).Error; err != nil {
-		return err
+		return utils.NewError(err, "document type")
 	}
 
 	if err := data.Model(s).Related(&s.DeliveryMethod).Error; err != nil {
-		return err
+		return utils.NewError(err, "delivery method")
 	}
 
 	if err := data.Model(s).Related(&s.Packages).Error; err != nil {
 		if err.Error() == "record not found" {
 			return nil
 		} else {
-			return err
+			return utils.NewError(err, "packages")
 		}
 	} else {
 		for i := range s.Packages {
 			if err := s.Packages[i].Expand(data); err != nil {
-				return err
+				return utils.NewError(err, "packages expand")
 			}
 		}
 	}
