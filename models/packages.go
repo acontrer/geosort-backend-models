@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"github.com/jinzhu/gorm"
 )
 
@@ -26,20 +27,22 @@ type Packages struct {
 }
 
 func (p *Packages) Expand(data *gorm.DB) error {
-	if err := data.Model(p).Related(&p.LastStateModel).Error; err != nil {
-		return err
-	} else {
-		if err := p.LastStateModel.Expand(data); err != nil {
-			return err
+	if p.LastState != nil {
+		if err := data.Model(p).Related(&p.LastStateModel).Error; err != nil {
+			return utils.NewError(err, "last state")
+		} else {
+			if err := p.LastStateModel.Expand(data); err != nil {
+				return utils.NewError(err, "last state expand")
+			}
 		}
 	}
 
 	if err := data.Model(p).Related(&p.States).Error; err != nil {
-		return err
+		return utils.NewError(err, "states")
 	} else {
 		for i := range p.States {
 			if err := p.States[i].Expand(data); err != nil {
-				return err
+				return utils.NewError(err, "states expand")
 			}
 		}
 	}
