@@ -23,7 +23,7 @@ type Routes struct {
 	TravelTypesId         int                 `gorm:"column:travel_types_id;not null;" json:"travel_types_id" form:"routes_travel_types_id"`
 	TravelType            TravelTypes         `gorm:"foreignkey:TravelTypesId;" json:"travel_types" form:"routes_travel_types"`
 	Value                 float64             `gorm:"column:value;not null;" json:"value" form:"routes_value"`
-	Token                 string              `gorm:"column:token;" json:"token" form:"token"`
+	Token                 string              `gorm:"column:token;" json:"token" form:"routes_token"`
 }
 
 func (r *Routes) GetRouteByIdTrl(db *gorm.DB, idTRL int) error {
