@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -34,37 +35,37 @@ type DeliveryPoints struct {
 
 func (dp *DeliveryPoints) Expand(data *gorm.DB) error {
 	if err := data.Model(dp).Related(&dp.Point).Error; err != nil {
-		return err
+		return utils.NewError(err, "point")
 	} else {
 		if err := dp.Point.Expand(data); err != nil {
-			return err
+			return utils.NewError(err, "point expand")
 		}
 	}
 
 	if err := data.Model(dp).Related(&dp.Customer).Error; err != nil {
-		return err
+		return utils.NewError(err, "customer")
 	}
 
 	if err := data.Model(dp).Related(&dp.DistributionCenter).Error; err != nil {
-		return err
+		return utils.NewError(err, "distribution center")
 	}
 
 	if err := data.Model(dp).Related(&dp.Suborders).Error; err != nil {
-		return err
+		return utils.NewError(err, "suborder")
 	} else {
 		for i := range dp.Suborders {
 			if err := dp.Suborders[i].Expand(data); err != nil {
-				return err
+				return utils.NewError(err, "suborder expand")
 			}
 		}
 	}
 
 	if err := data.Model(dp).Related(&dp.TimeWindows, "TimeWindows").Error; err != nil {
-		return nil
+		return utils.NewError(err, "time windows")
 	}
 
 	if err := data.Model(dp).Related(&dp.TravelType).Error; err != nil {
-		return err
+		return utils.NewError(err, "travel type")
 	}
 
 	return nil

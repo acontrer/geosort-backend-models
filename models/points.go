@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"github.com/jinzhu/gorm"
 )
 
@@ -17,21 +18,21 @@ type Points struct {
 func (p *Points) Expand(data *gorm.DB) error {
 	if err := data.Model(p).Related(&p.GeoDetails).Error; err != nil {
 		if err.Error() != "record not found" {
-			return err
+			return utils.NewError(err, "geo details")
 		}
 	} else {
 		for i := range p.GeoDetails {
 			if err := p.GeoDetails[i].Expand(data); err != nil {
-				return err
+				return utils.NewError(err, "geo details expand")
 			}
 		}
 	}
 
 	if err := data.Model(p).Related(&p.Street).Error; err != nil {
-		return err
+		return utils.NewError(err, "street")
 	} else {
 		if err := p.Street.Expand(data); err != nil {
-			return err
+			return utils.NewError(err, "street expand")
 		}
 	}
 

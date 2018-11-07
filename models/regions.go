@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"github.com/jinzhu/gorm"
 )
 
@@ -13,7 +14,7 @@ type Regions struct {
 
 func (r *Regions) Expand(data *gorm.DB) error {
 	if err := data.Model(r).Related(&r.Country).Error; err != nil {
-		return err
+		return utils.NewError(err, "country")
 	} else {
 		return nil
 	}
