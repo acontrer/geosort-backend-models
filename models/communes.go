@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"github.com/jinzhu/gorm"
 )
 
@@ -14,10 +15,10 @@ type Communes struct {
 
 func (c *Communes) Expand(data *gorm.DB) error {
 	if err := data.Model(c).Related(&c.Region).Error; err != nil {
-		return err
+		return utils.NewError(err, "region")
 	} else {
 		if err := c.Region.Expand(data); err != nil {
-			return err
+			return utils.NewError(err, "region expand")
 		}
 	}
 

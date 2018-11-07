@@ -16,10 +16,10 @@ type Streets struct {
 
 func (s *Streets) Expand(data *gorm.DB) error {
 	if err := data.Model(s).Related(&s.Commune).Error; err != nil {
-		return err
+		return utils.NewError(err, "commune")
 	} else {
 		if err := s.Commune.Expand(data); err != nil {
-			return err
+			return utils.NewError(err, "commune expand")
 		}
 	}
 
