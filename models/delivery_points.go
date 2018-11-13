@@ -50,6 +50,10 @@ func (dp *DeliveryPoints) Expand(data *gorm.DB) error {
 		return utils.NewError(err, "distribution center")
 	}
 
+	if err := data.Model(dp).Related(&dp.TravelType).Error; err != nil {
+		return utils.NewError(err, "travel type")
+	}
+
 	if err := data.Model(dp).Related(&dp.Suborders).Error; err != nil {
 		return utils.NewError(err, "suborder")
 	} else {
@@ -62,10 +66,6 @@ func (dp *DeliveryPoints) Expand(data *gorm.DB) error {
 
 	if err := data.Model(dp).Related(&dp.TimeWindows, "TimeWindows").Error; err != nil {
 		return utils.NewError(err, "time windows")
-	}
-
-	if err := data.Model(dp).Related(&dp.TravelType).Error; err != nil {
-		return utils.NewError(err, "travel type")
 	}
 
 	return nil
