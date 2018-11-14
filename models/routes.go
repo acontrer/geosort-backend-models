@@ -83,7 +83,7 @@ func (r *Routes) Expand(data *gorm.DB) error {
 		}
 	}
 
-	if r.Driver.Id != 0 {
+	if *r.DriversId != 0 {
 		if err := data.Model(r).Related(&r.Driver).Error; err != nil {
 			return utils.NewError(err, "driver")
 		} else {
@@ -93,7 +93,7 @@ func (r *Routes) Expand(data *gorm.DB) error {
 			}
 		}
 	}
-	if r.Vehicle.Id != 0 {
+	if *r.VehiclesId != 0 {
 		if err := data.Model(r).Related(&r.Vehicle).Error; err != nil {
 			return utils.NewError(err, "vehicle")
 		} else {
