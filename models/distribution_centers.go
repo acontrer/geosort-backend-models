@@ -29,10 +29,10 @@ func (dc *DistributionCenters) GetDistribuionCenterByName(data *gorm.DB, name st
 
 func (dc *DistributionCenters) Expand(data *gorm.DB) error {
 	if err := data.Model(dc).Related(&dc.Point).Error; err != nil {
-		return err
+		return utils.NewError(err, "point")
 	} else {
 		if err := dc.Point.Expand(data); err != nil {
-			return err
+			return utils.NewError(err, "point expand")
 		}
 	}
 

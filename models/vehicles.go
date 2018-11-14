@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"github.com/jinzhu/gorm"
 
 	"time"
@@ -28,11 +29,11 @@ func (v *Vehicles) GetCapacity() float64 {
 
 func (v *Vehicles) Expand(data *gorm.DB) error {
 	if err := data.Model(v).Related(&v.VehicleType).Error; err != nil {
-		return err
+		return utils.NewError(err, "vehicle type")
 	}
 
 	if err := data.Model(v).Related(&v.Enterprise).Error; err != nil {
-		return err
+		return utils.NewError(err, "enterprise")
 	}
 
 	return nil

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -65,36 +66,36 @@ func (r *Routes) TransferRoute(position, idVehicles int) Routes {
 
 func (r *Routes) Expand(data *gorm.DB) error {
 	if err := data.Model(r).Related(&r.DeliveryPoints).Error; err != nil {
-		return err
+		return utils.NewError(err, "delivery points")
 	} else {
 		for i := range r.DeliveryPoints {
 			if err := r.DeliveryPoints[i].Expand(data); err != nil {
-				return err
+				return utils.NewError(err, "delivery points expand")
 			}
 		}
 	}
 
 	if err := data.Model(r).Related(&r.DistributionCenter).Error; err != nil {
-		return err
+		return utils.NewError(err, "distribution center")
 	} else {
 		if err := r.DistributionCenter.Expand(data); err != nil {
-			return err
+			return utils.NewError(err, "distribution center expand")
 		}
 	}
 
 	if err := data.Model(r).Related(&r.Driver).Error; err != nil {
-		return err
+		return utils.NewError(err, "driver")
 	} else {
 
 		if err := r.Driver.Expand(data); err != nil {
-			return err
+			return utils.NewError(err, "driver expand")
 		}
 	}
 	if err := data.Model(r).Related(&r.Vehicle).Error; err != nil {
-		return err
+		return utils.NewError(err, "vehicle")
 	} else {
 		if err := r.Vehicle.Expand(data); err != nil {
-			return err
+			return utils.NewError(err, "vehicle expand")
 		}
 	}
 
