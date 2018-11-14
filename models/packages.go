@@ -27,6 +27,10 @@ type Packages struct {
 }
 
 func (p *Packages) Expand(data *gorm.DB) error {
+	if err := data.Model(p).Related(&p.PackageType).Error; err != nil {
+		return utils.NewError(err, "delivery method")
+	}
+
 	if p.LastState != nil {
 		if err := data.Model(p).Related(&p.LastStateModel).Error; err != nil {
 			return utils.NewError(err, "last state")
