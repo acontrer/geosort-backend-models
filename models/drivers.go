@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"github.com/jinzhu/gorm"
 )
 
@@ -28,15 +29,15 @@ func (d *Drivers) GetZonesId() []int {
 
 func (d *Drivers) Expand(data *gorm.DB) error {
 	if err := data.Model(d).Related(&d.Account).Error; err != nil {
-		return err
+		return utils.NewError(err, "account")
 	} else {
 		if err := d.Account.Expand(data); err != nil {
-			return err
+			return utils.NewError(err, "account expand")
 		}
 	}
 
 	if err := data.Model(d).Related(&d.Enterprise).Error; err != nil {
-		return err
+		return utils.NewError(err, "enterprise")
 	}
 
 	return nil
