@@ -83,19 +83,23 @@ func (r *Routes) Expand(data *gorm.DB) error {
 		}
 	}
 
-	if err := data.Model(r).Related(&r.Driver).Error; err != nil {
-		return utils.NewError(err, "driver")
-	} else {
+	if r.Driver.Id != 0 {
+		if err := data.Model(r).Related(&r.Driver).Error; err != nil {
+			return utils.NewError(err, "driver")
+		} else {
 
-		if err := r.Driver.Expand(data); err != nil {
-			return utils.NewError(err, "driver expand")
+			if err := r.Driver.Expand(data); err != nil {
+				return utils.NewError(err, "driver expand")
+			}
 		}
 	}
-	if err := data.Model(r).Related(&r.Vehicle).Error; err != nil {
-		return utils.NewError(err, "vehicle")
-	} else {
-		if err := r.Vehicle.Expand(data); err != nil {
-			return utils.NewError(err, "vehicle expand")
+	if r.Vehicle.Id != 0 {
+		if err := data.Model(r).Related(&r.Vehicle).Error; err != nil {
+			return utils.NewError(err, "vehicle")
+		} else {
+			if err := r.Vehicle.Expand(data); err != nil {
+				return utils.NewError(err, "vehicle expand")
+			}
 		}
 	}
 
