@@ -22,7 +22,7 @@ type Packages struct {
 	SubordersId    int64        `gorm:"column:suborders_id;not null;" json:"suborders_id" form:"packages_suborders_id"`
 	Priority       int          `gorm:"column:priority;not null;" json:"priority" form:"packages_priority"`
 	LastState      *int         `gorm:"column:last_state;" json:"last_state" form:"packages_last_state"`
-	LastStateModel States       `gorm:"foreignkey:LastState;" json:"last_state_model" form:"packages_last_state_model"`
+	LastStateModel States       `gorm:"foreignkey:LastState;association_foreignkey:Id" json:"last_state_model" form:"packages_last_state_model"`
 	States         []States     `gorm:"foreignkey:PackagesId;association_foreignkey:Id" json:"state" form:"packages_states"`
 }
 
