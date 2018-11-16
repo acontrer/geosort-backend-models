@@ -57,3 +57,11 @@ func (p *Packages) Expand(data *gorm.DB) error {
 func (p *Packages) GetVolume() float64 {
 	return p.Height * p.Length * p.Width
 }
+
+func (p *Packages) GetPackageBySku(data *gorm.DB) bool {
+	if err := data.Where("sku = ?", p.Sku).Find(&p).Error; err != nil {
+		return false
+	} else {
+		return true
+	}
+}
