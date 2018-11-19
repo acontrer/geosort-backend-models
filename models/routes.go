@@ -103,5 +103,9 @@ func (r *Routes) Expand(data *gorm.DB) error {
 		}
 	}
 
+	if err := data.Model(r).Related(&r.TravelType).Error; err != nil {
+		return utils.NewError(err, "travel type")
+	}
+
 	return nil
 }
