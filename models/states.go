@@ -19,6 +19,10 @@ type States struct {
 func (s *States) Expand(data *gorm.DB) error {
 	if err := data.Model(s).Related(&s.StateType).Error; err != nil {
 		return err
+	} else {
+		if err := s.StateType.Expand(data); err != nil {
+			return err
+		}
 	}
 
 	return nil
