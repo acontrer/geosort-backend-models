@@ -9,7 +9,7 @@ type RestrictionAreas struct {
 	Restrictions []Restrictions `gorm:"foreignkey:AreaRestrictionsId;association_foreignkey:Id;" json:"restrictions" form:"restriction_areas_restrictions"`
 }
 
-func (r *RestrictionAreas) Add(data *gorm.DB) (error) {
+func (r *RestrictionAreas) Add(data *gorm.DB) error {
 	if err := data.Raw("INSERT INTO restriction_areas (name, polygon) VALUES (?, st_geomfromtext(?, 4267)) returning restriction_areas.id", r.Name, r.Polygon).Scan(&r).Error; err != nil {
 		return err
 	} else {
@@ -17,7 +17,7 @@ func (r *RestrictionAreas) Add(data *gorm.DB) (error) {
 	}
 }
 
-func (r *RestrictionAreas) Expand(data *gorm.DB) (error) {
+func (r *RestrictionAreas) Expand(data *gorm.DB) error {
 	if err := data.Model(r).Related(&r.Restrictions, "Restrictions").Error; err != nil {
 		return err
 	}
