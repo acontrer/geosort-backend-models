@@ -11,7 +11,7 @@ type Restrictions struct {
 	Days               Days        `gorm:"foreignkey:DaysId;" json:"days" form:"restrictions_days"`
 }
 
-func (r *Restrictions) Expand(data *gorm.DB) (error) {
+func (r *Restrictions) Expand(data *gorm.DB) error {
 	if err := data.Model(r).Related(&r.TimeWindows, "TimeWindows").Error; err != nil {
 		return err
 	}
