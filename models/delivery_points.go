@@ -31,6 +31,8 @@ type DeliveryPoints struct {
 	RatioLatitude         float64             `gorm:"column:ratio_latitude;not null;" json:"ratio_latitude" form:"delivery_points_ratio_latitude"`
 	RatioLongitude        float64             `gorm:"column:ratio_longitude;not null;" json:"ratio_longitude" form:"delivery_points_ratio_longitude"`
 	RatioArrivalAt        time.Time           `gorm:"column:ratio_arrival_at;not null;" json:"ratio_arrival_at" form:"delivery_points_ratio_arrival_at"`
+	RequestedAt           time.Time           `gorm:"column:requested_at;not null;" json:"ratio_arrival_at" form:"delivery_points_ratio_arrival_at"`
+	wea int
 }
 
 func (dp *DeliveryPoints) Expand(data *gorm.DB) error {
@@ -68,5 +70,53 @@ func (dp *DeliveryPoints) Expand(data *gorm.DB) error {
 		return utils.NewError(err, "time windows")
 	}
 
+	return nil
+}
+
+func (dp *DeliveryPoints) AddTimeWindow(data *gorm.DB) (error) {
+	if r, err := dp.Point.GetRestrictions(data); err != nil {
+		return err
+	} else {
+		weekday := dp.RequestedAt.Weekday()
+		for i, _ := range r {
+			if (int(weekday) + 1) == r[i].DaysId {
+				if err := data.Model(&dp).Association("TimeWindows").Append(&TimeWindows{Id: r[i].TimeWindowsId}).Error; err != nil {
+					return err
+				}
+			}
+		}
+	}
+	return nil
+}
+
+func (dp *DeliveryPoints) RemoveTimeWindows(data *gorm.DB) (error) {
+	if len(dp.TimeWindows) > 0 {
+		for i, _ := range dp.TimeWindows {
+			if err := dp.TimeWindows[i].Expand(data); err != nil {
+				return err
+			}
+			if len(dp.TimeWindows[i].Restrictions) > 0 {
+				weekday := dp.RequestedAt.Weekday()
+				for j, _ := range dp.TimeWindows[i].Restrictions {
+					if (int(weekday) + 1) != dp.TimeWindows[i].Restrictions[j].DaysId {
+						if err := data.Model(&dp).Association("TimeWindows").Delete(&TimeWindows{Id: dp.TimeWindows[i].Id}).Error; err != nil {
+							return err
+						}
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+func (dp *DeliveryPoints) SetRequestAt(data *gorm.DB, date time.Time) (error) {
+	if err := dp.RemoveTimeWindows(data); err != nil {
+		return err
+	}
+	dp.RequestedAt = date
+	if err := dp.AddTimeWindow(data); err != nil {
+		return err
+	}
 	return nil
 }

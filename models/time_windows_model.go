@@ -7,9 +7,10 @@ import (
 )
 
 type TimeWindows struct {
-	Id         int       `gorm:"column:id;not null;" json:"id" form:"time_windows_id"`
-	TimeInit   time.Time `gorm:"column:time_init;not null;" json:"time_init" form:"time_windows_time_init" time_format:"2006-01-02T15:04:05Z"`
-	TimeFinish time.Time `gorm:"column:time_finish;not null;" json:"time_finish" form:"time_windows_time_finish" time_format:"2006-01-02T15:04:05Z"`
+	Id           int            `gorm:"column:id;not null;" json:"id" form:"time_windows_id"`
+	TimeInit     time.Time      `gorm:"column:time_init;not null;" json:"time_init" form:"time_windows_time_init" time_format:"2006-01-02T15:04:05Z"`
+	TimeFinish   time.Time      `gorm:"column:time_finish;not null;" json:"time_finish" form:"time_windows_time_finish" time_format:"2006-01-02T15:04:05Z"`
+	Restrictions []Restrictions `gorm:"foreignkey:time_windows_id;" json:"restrictions" form:"time_windows_restrictions"`
 }
 
 func (tw *TimeWindows) GetID(db *gorm.DB, timeInit, timeFinal time.Time) bool {
@@ -25,4 +26,17 @@ func (tw *TimeWindows) GetID(db *gorm.DB, timeInit, timeFinal time.Time) bool {
 		return true
 	}
 	//}
+}
+
+func (tw *TimeWindows) Expand(data *gorm.DB) error {
+	if err := data.Model(tw).Related(&tw.Restrictions).Error; err != nil {
+		return err
+	} else {
+		for i, _ := range tw.Restrictions {
+			if err := tw.Restrictions[i].Expand(data); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
