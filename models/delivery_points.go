@@ -32,7 +32,6 @@ type DeliveryPoints struct {
 	RatioLongitude        float64             `gorm:"column:ratio_longitude;not null;" json:"ratio_longitude" form:"delivery_points_ratio_longitude"`
 	RatioArrivalAt        time.Time           `gorm:"column:ratio_arrival_at;not null;" json:"ratio_arrival_at" form:"delivery_points_ratio_arrival_at"`
 	RequestedAt           time.Time           `gorm:"column:requested_at;not null;" json:"ratio_arrival_at" form:"delivery_points_ratio_arrival_at"`
-	wea int
 }
 
 func (dp *DeliveryPoints) Expand(data *gorm.DB) error {

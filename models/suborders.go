@@ -8,6 +8,7 @@ import (
 type Suborders struct {
 	Id                int64           `gorm:"column:id;not null;" json:"id" form:"suborders_id"`
 	DeliveryPointsId  int64           `gorm:"column:delivery_points_id;not null;" json:"delivery_points_id" form:"suborders_delivery_points_id"`
+	DeliveryPoints    DeliveryPoints  `gorm:"foreignkey:DeliveryPointsId;" json:"delivery_points" form:"suborders_delivery_points"`
 	Code              int64           `gorm:"column:code;not null;" json:"code" form:"suborders_code"`
 	Do                int64           `gorm:"column:do;not null;" json:"do" form:"suborders_do"`
 	DocumentTypesId   int             `gorm:"column:document_types_id;not null;" json:"document_types_id" form:"suborders_document_types_id"`

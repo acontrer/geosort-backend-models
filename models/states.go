@@ -24,6 +24,5 @@ func (s *States) Expand(data *gorm.DB) error {
 			return err
 		}
 	}
-
 	return nil
 }

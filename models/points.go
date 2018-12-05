@@ -61,9 +61,3 @@ func (p *Points) GetRestrictions(data *gorm.DB) ([]Restrictions, error) {
 		return r, nil
 	}
 }
-
-func (p *Points) Test(wea int) (int, error) {
-	return 0, nil
-}
-
-
