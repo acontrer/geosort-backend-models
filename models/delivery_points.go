@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"time"
+
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 
 	"github.com/jinzhu/gorm"
 )
@@ -72,7 +73,7 @@ func (dp *DeliveryPoints) Expand(data *gorm.DB) error {
 	return nil
 }
 
-func (dp *DeliveryPoints) AddTimeWindow(data *gorm.DB) (error) {
+func (dp *DeliveryPoints) AddTimeWindow(data *gorm.DB) error {
 	if r, err := dp.Point.GetRestrictions(data); err != nil {
 		return err
 	} else {
@@ -88,7 +89,7 @@ func (dp *DeliveryPoints) AddTimeWindow(data *gorm.DB) (error) {
 	return nil
 }
 
-func (dp *DeliveryPoints) RemoveTimeWindows(data *gorm.DB) (error) {
+func (dp *DeliveryPoints) RemoveTimeWindows(data *gorm.DB) error {
 	if len(dp.TimeWindows) > 0 {
 		for i, _ := range dp.TimeWindows {
 			if err := dp.TimeWindows[i].Expand(data); err != nil {
@@ -109,7 +110,7 @@ func (dp *DeliveryPoints) RemoveTimeWindows(data *gorm.DB) (error) {
 	return nil
 }
 
-func (dp *DeliveryPoints) SetRequestAt(data *gorm.DB, date time.Time) (error) {
+func (dp *DeliveryPoints) SetRequestAt(data *gorm.DB, date time.Time) error {
 	if err := dp.RemoveTimeWindows(data); err != nil {
 		return err
 	}
