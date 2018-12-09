@@ -8,7 +8,7 @@ type StateSubtypes struct {
 	StateTypesId int        `gorm:"column:state_types_id;not null;" json:"state_types_id" form:"state_types_state_subtypes_id"`
 	Code         string     `gorm:"column:code;not null;" json:"code" form:"state_subtypes_code"`
 	Subcode      string     `gorm:"column:subcode;not null;" json:"subcode" form:"state_types_subcode"`
-	StateTypes   StateTypes `gorm:"foreignkey:StateSubtypesId" json:"state_types" form:"state_subtypes_state_type"`
+	StateTypes   StateTypes `gorm:"foreignkey:StateSubtypesId;association_autoupdate:false" json:"state_types" form:"state_subtypes_state_type"`
 }
 
 func (st *StateSubtypes) Expand(data *gorm.DB) error {
