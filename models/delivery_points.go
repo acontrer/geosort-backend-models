@@ -1,6 +1,7 @@
 package models
 
 import (
+	"sort"
 	"time"
 
 	"github.com/dwladdimiroc/geosort-backend-models/utils"
@@ -70,6 +71,25 @@ func (dp *DeliveryPoints) Expand(data *gorm.DB) error {
 		return utils.NewError(err, "time windows")
 	}
 
+	return nil
+}
+
+func (dp *DeliveryPoints) SearchTimeWindow(tw TimeWindows) int {
+	idx := sort.Search(len(dp.TimeWindows), func(i int) bool {
+		return dp.TimeWindows[i].TimeInit == tw.TimeInit && dp.TimeWindows[i].TimeFinish == tw.TimeFinish
+	})
+	if idx < len(dp.TimeWindows) && dp.TimeWindows[idx].TimeInit == tw.TimeInit && dp.TimeWindows[idx].TimeFinish == tw.TimeFinish {
+		return idx
+	}
+	return -1
+}
+
+func (dp *DeliveryPoints) AddTimeWindowWithoutZone(data *gorm.DB, tw TimeWindows) error {
+	if dp.SearchTimeWindow(tw) == -1 {
+		if err := data.Model(&dp).Association("TimeWindows").Append(&TimeWindows{Id: tw.Id}).Error; err != nil {
+			return err
+		}
+	}
 	return nil
 }
 

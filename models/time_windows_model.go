@@ -20,7 +20,7 @@ func (tw *TimeWindows) GetID(db *gorm.DB, timeInit, timeFinal time.Time) bool {
 	//if err != nil {
 	//	return false
 	//} else {
-	if err := db.Where("time_init = ? AND time_finish = ?", timeInit, timeFinal).Find(tw).Error; err != nil {
+	if err := db.Where("time_init = ? AND time_finish = ?", timeInit, timeFinal).Find(&tw).Error; err != nil {
 		return false
 	} else {
 		return true
