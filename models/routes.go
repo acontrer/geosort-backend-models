@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/dwladdimiroc/geosort-backend-models/utils"
 	"time"
+
+	"github.com/dwladdimiroc/geosort-backend-models/utils"
 
 	"github.com/jinzhu/gorm"
 )
@@ -25,6 +26,7 @@ type Routes struct {
 	TravelType            TravelTypes         `gorm:"foreignkey:TravelTypesId;" json:"travel_types" form:"routes_travel_types"`
 	Value                 float64             `gorm:"column:value;not null;" json:"value" form:"routes_value"`
 	Token                 string              `gorm:"column:token;" json:"token" form:"routes_token"`
+	Active                bool                `gorm:"column:active;" json:"active" form:"routes_active"`
 }
 
 func (r *Routes) GetRouteByIdTrl(db *gorm.DB, idTRL int) error {
