@@ -40,3 +40,10 @@ func (tw *TimeWindows) Expand(data *gorm.DB) error {
 	}
 	return nil
 }
+
+func (tw *TimeWindows) IsInside(t time.Time) bool {
+	auxinit := time.Date(2000, time.January, 1, tw.TimeInit.Hour(), tw.TimeInit.Minute(), 0, 0, time.UTC)
+	auxfinish := time.Date(2000, time.January, 1, tw.TimeFinish.Hour(), tw.TimeFinish.Minute(), 0, 0, time.UTC)
+	auxt := time.Date(2000, time.January, 1, t.Hour(), t.Minute(), 0, 0, time.UTC)
+	return auxt.After(auxinit) && auxt.Before(auxfinish)
+}
