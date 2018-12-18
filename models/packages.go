@@ -41,7 +41,7 @@ func (p *Packages) Expand(data *gorm.DB) error {
 		}
 	}
 
-	if err := data.Model(p).Related(&p.States).Error; err != nil {
+	if err := data.Model(p).Related(&p.States).Order("id asc").Error; err != nil {
 		return utils.NewError(err, "states")
 	} else {
 		for i := range p.States {
